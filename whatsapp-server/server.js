@@ -125,7 +125,7 @@ const startClient = (storeId) => {
         useChrome: true,
         debug: false,
         logQR: true,
-        autoClose: 300000, // 5 minutes to scan
+        autoClose: 0, // 0 = Never close (Infinite time to scan)
         browserArgs: [
             '--no-sandbox',
             '--disable-setuid-sandbox',
