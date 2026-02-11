@@ -125,7 +125,17 @@ const startClient = (storeId) => {
         useChrome: true,
         debug: false,
         logQR: true,
-        browserArgs: ['--no-sandbox', '--disable-setuid-sandbox']
+        autoClose: 300000, // 5 minutes to scan
+        browserArgs: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu'
+        ]
     })
         .then((wppClient) => {
             client = wppClient;
