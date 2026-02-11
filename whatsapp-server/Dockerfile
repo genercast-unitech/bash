@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y \
     fonts-liberation \
     libappindicator1 \
     libnss3 \
+    libgbm1 \
     lsb-release \
     xdg-utils \
     wget \
