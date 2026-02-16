@@ -1,0 +1,486 @@
+/* Floating Widget Container - The Draggable Root */
+#whatsapp-widget-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    touch-action: none;
+}
+
+/* Hide on Mobile */
+@media (max-width: 768px) {
+    #whatsapp-widget-container {
+        display: none !important;
+    }
+}
+
+/* Floating Action Button (FAB) */
+.whatsapp-fab,
+.whatsapp-fab-embedded {
+    width: 60px;
+    height: 60px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: move;
+    /* Indicate draggable */
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: white;
+    z-index: 20;
+    pointer-events: auto;
+}
+
+.whatsapp-fab-embedded {
+    /* When embedded, it might be static, but if we want it draggable, we treat it same */
+    z-index: 50;
+}
+
+.whatsapp-fab:hover,
+.whatsapp-fab-embedded:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.whatsapp-fab:active,
+.whatsapp-fab-embedded:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+}
+
+/* Chat Window */
+.whatsapp-chat-window {
+    /* No longer fixed position globally, but part of the column flex */
+    position: relative;
+    width: 380px;
+    height: 600px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* resize: both;  -- Disabled temporarily as it conflicts with flex container size */
+    min-width: 300px;
+    min-height: 400px;
+    font-size: 14px;
+    transition: opacity 0.2s, transform 0.2s;
+    transform-origin: bottom right;
+    margin-bottom: 0;
+}
+
+.whatsapp-chat-window.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Header */
+.chat-header {
+    background: #202c33;
+    padding: 12px 16px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+    /* Draggable handle */
+    user-select: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chat-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chat-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #25D366;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* Body */
+.chat-body {
+    flex: 1;
+    background: #0b141a;
+    /* Whatsapp Dark BG */
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Matches Static Panel EXACT Styles */
+.wpp-msg {
+    max-width: 70%;
+    padding: 8px 65px 8px 12px;
+    /* Large right padding to protect time/ack space */
+    border-radius: 7.5px;
+    font-size: 14.2px;
+    color: #e9edef;
+    position: relative;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    margin-bottom: 2px;
+    min-width: 80px;
+}
+
+.wpp-msg.sent {
+    align-self: flex-end;
+    background: #005c4b;
+    border-top-right-radius: 0;
+}
+
+.wpp-msg.received {
+    align-self: flex-start;
+    background: #202c33;
+    border-top-left-radius: 0;
+}
+
+.wpp-msg-time {
+    position: absolute;
+    bottom: 4px;
+    right: 7px;
+    font-size: 10px;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.wpp-ack-read {
+    color: #53bdeb;
+}
+
+.wpp-ack-delivered {
+    color: #8696a0;
+}
+
+.wpp-ack-sent {
+    color: #8696a0;
+}
+
+/* Custom Media Players */
+.wpp-audio-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    padding: 0;
+    margin: 4px 0 10px;
+    min-width: 280px;
+    position: relative;
+}
+
+.wpp-audio-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #39474e;
+    flex-shrink: 0;
+    margin-right: 4px;
+}
+
+.wpp-audio-btn {
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: none;
+    color: #8696a0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.wpp-audio-btn:hover {
+    color: #e9edef;
+}
+
+.wpp-audio-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.wpp-audio-waveform {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+
+.wpp-audio-wave-bar {
+    width: 2px;
+    background: #54656f;
+    border-radius: 1px;
+    transition: background 0.1s;
+}
+
+.wpp-audio-wave-bar.active {
+    background: #53bdeb;
+}
+
+.wpp-audio-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8696a0;
+    margin-top: 2px;
+}
+
+.wpp-audio-speed {
+    font-size: 10px;
+    font-weight: bold;
+    color: #e9edef;
+    background: #39474e;
+    padding: 2px 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.wpp-video-container {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    max-width: 300px;
+    aspect-ratio: 16/9;
+    margin: 4px 0 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wpp-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* Footer (Input) */
+.chat-footer {
+    background: #202c33;
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chat-input {
+    flex: 1;
+    background: #2a3942;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: #d1d7db;
+    font-size: 14px;
+}
+
+.chat-input:focus {
+    outline: none;
+}
+
+.chat-send-btn {
+    background: transparent;
+    border: none;
+    color: #8696a0;
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.chat-send-btn:hover {
+    color: #25D366;
+}
+
+/* Lock Status Overlay */
+.chat-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 10;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Photo Viewer Modal */
+.wpp-viewer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.wpp-viewer-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.wpp-viewer-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: wpp-zoom-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes wpp-zoom-in {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.wpp-viewer-img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.wpp-viewer-close {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wpp-viewer-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+    .wpp-viewer-close {
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Premium Connection Screen Styles */
+.unitech-card {
+    background: rgba(17, 27, 33, 0.8) !important;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.qr-container-premium {
+    background: white;
+    padding: 12px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(37, 211, 102, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.qr-container-premium::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid #25D366;
+    border-radius: 20px;
+    animation: qr-pulse 2s infinite;
+    opacity: 0.5;
+}
+
+@keyframes qr-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}
+
+.status-badge-premium {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.btn-premium-wpp {
+    background: linear-gradient(135deg, #25D366 0%, #075E54 100%);
+    color: white;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-premium-wpp:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
+    filter: brightness(1.1);
+}
+
+.bg-pattern-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}

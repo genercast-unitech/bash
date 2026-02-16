@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "name": "Loja Matriz",
+        "status": "DISCONNECTED",
+        "qr": null,
+        "lastUpdate": "2026-02-13T19:00:00Z"
+    },
+    {
+        "id": "2",
+        "name": "Filial Sul",
+        "status": "DISCONNECTED",
+        "qr": null,
+        "lastUpdate": "2026-02-13T19:00:00Z"
+    },
+    {
+        "id": "3",
+        "name": "Suporte Premium",
+        "status": "DISCONNECTED",
+        "qr": null,
+        "lastUpdate": "2026-02-13T19:00:00Z"
+    },
+    {
+        "id": "4",
+        "name": "Financeiro",
+        "status": "DISCONNECTED",
+        "qr": null,
+        "lastUpdate": "2026-02-13T19:00:00Z"
+    }
+]

@@ -1,0 +1,11 @@
+{
+    "name": "unitech-agent",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "server-local.js",
+    "dependencies": {
+        "@whiskeysockets/baileys": "^6.5.0",
+        "ws": "^8.14.2",
+        "qrcode": "^1.5.3"
+    }
+}

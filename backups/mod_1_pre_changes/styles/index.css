@@ -1,0 +1,164 @@
+/* Import Design System */
+@import './design-system.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  :root {
+    --color-unitech-primary: #3b82f6;
+    --color-unitech-secondary: #1e293b;
+    --color-unitech-bg: #f3f4f6;
+    --color-unitech-surface: #ffffff;
+    --color-unitech-text: #1f2937;
+    --color-unitech-border: #e5e7eb;
+
+    /* Dynamic Typography */
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  /* Custom scrollbar for Webkit browsers */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f3f4f6;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+    border: 1px solid #f3f4f6;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+    /* Orange-600 */
+  }
+
+  /* High Visibility Scrollbar for Reports/Tables */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    /* Slate-400 */
+    border-radius: 10px;
+    border: 3px solid #f1f5f9;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+    /* Slate-700 */
+  }
+}
+
+/* Replaces glass-panel */
+.tech-panel {
+  @apply bg-white border border-unitech-border shadow-sm rounded-lg;
+}
+
+/* Deprecated compatibility alias */
+.glass-panel {
+  @apply tech-panel;
+}
+
+.btn-primary {
+  @apply px-4 py-2 bg-unitech-primary text-white font-bold uppercase tracking-wider rounded-md hover:bg-blue-600 transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-white border border-gray-300 text-gray-700 uppercase tracking-wider rounded-md hover:bg-gray-50 transition-all active:translate-y-[1px] shadow-sm;
+}
+
+.input-field {
+  @apply w-full bg-white border border-gray-300 rounded-md px-4 py-3 text-gray-900 font-sans text-sm focus:outline-none focus:border-unitech-primary focus:ring-1 focus:ring-unitech-primary transition-colors placeholder-gray-500;
+  color: #111827 !important;
+  /* Force gray-900 */
+}
+
+@media print {
+
+  /* Hide UI Shell and Navigation - High Specificity */
+  aside,
+  header,
+  nav,
+  .nav-btn,
+  #backup-btn,
+  #logout-btn,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset layout for full page print */
+  body,
+  #app,
+  #content-area {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Specific navigation panel wrapper reset */
+  .tech-panel {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Specific fix for the flex wrapper in MainLayout */
+  .h-screen {
+    height: auto !important;
+  }
+
+  /* Improve borders for print */
+  .border,
+  .border-t,
+  .border-b,
+  .border-l,
+  .border-r {
+    border-color: #000 !important;
+  }
+}
+
+/* AI Chat Custom Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

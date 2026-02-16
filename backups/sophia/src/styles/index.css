@@ -1,0 +1,517 @@
+/* Import Design System */
+@import './design-system.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  :root {
+    --color-unitech-primary: #3b82f6;
+    --color-unitech-secondary: #1e293b;
+    --color-unitech-bg: #f3f4f6;
+    --color-unitech-surface: #ffffff;
+    --color-unitech-text: #1f2937;
+    --color-unitech-border: #e5e7eb;
+
+    /* Dynamic Typography */
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  /* --- DARK MODE ENGINE --- */
+  :root.dark {
+    --color-unitech-primary: #60a5fa;
+
+
+    /* Lighter Blue */
+    --color-unitech-secondary: #94a3b8;
+    /* Light Slate */
+    --color-unitech-bg: #0f172a;
+    /* Slate 900 */
+    --color-unitech-surface: #1e293b;
+    /* Slate 800 */
+    --color-unitech-text: #f8fafc;
+    /* Slate 50 */
+    --color-unitech-border: #334155;
+    /* Slate 700 */
+  }
+
+  /* --- GLOBAL DARK MODE OVERRIDES --- 
+     Forces existing light-mode utility classes to adapt to dark mode 
+     without refactoring every single file.
+  */
+  .dark body {
+    background-color: var(--color-unitech-bg);
+    color: var(--color-unitech-text);
+  }
+
+  .dark .bg-white {
+    background-color: var(--color-unitech-surface) !important;
+    color: var(--color-unitech-text) !important;
+  }
+
+  .dark .bg-gray-50,
+  .dark .bg-gray-100 {
+    background-color: #0f172a !important;
+    /* Darker than surface */
+    color: var(--color-unitech-text) !important;
+    border-color: var(--color-unitech-border) !important;
+  }
+
+  .dark .bg-gray-200 {
+    background-color: #334155 !important;
+  }
+
+  /* Dashboard Icon Backgrounds Fix */
+  .dark .bg-slate-900 {
+    background-color: #475569 !important;
+    /* Slate 600 - Visible on dark bg */
+    color: #ffffff !important;
+  }
+
+  .dark .text-slate-800,
+  .dark .text-slate-900 {
+    color: #f1f5f9 !important;
+    /* White/Light text */
+  }
+
+  .dark .text-slate-500,
+  .dark .text-slate-400 {
+    color: #cbd5e1 !important;
+    /* Brighten muted text for legibility */
+  }
+
+  /* Fix specifically for "System Stats" labels which were too dark */
+  .dark .text-gray-400 {
+    color: #cbd5e1 !important;
+    /* Slate 300 - Much brighter than original */
+  }
+
+  /* Dashboard Stats Cards Specific Fix - varying backgrounds */
+  .dark .bg-indigo-50\/50 .text-gray-400,
+  .dark .bg-purple-50\/50 .text-gray-400,
+  .dark .bg-blue-50\/50 .text-gray-400,
+  .dark .bg-violet-50\/50 .text-gray-400 {
+    color: #ffffff !important;
+    opacity: 0.9;
+    font-weight: 800;
+    /* Make it bolder */
+  }
+
+  /* Inverse badges for dark mode */
+  .dark .bg-slate-50 {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+  }
+
+  /* PDV Specific fixes */
+  .dark .bg-white {
+    background-color: #1e293b !important;
+    /* Ensure PDV panels are dark */
+  }
+
+  .dark .border-gray-50 {
+    border-color: #334155 !important;
+  }
+
+  .dark .hover\:bg-gray-50:hover {
+    background-color: #334155 !important;
+  }
+
+  .dark .text-gray-900,
+  .dark .text-gray-800,
+  .dark .text-black {
+    color: #f8fafc !important;
+    /* White text */
+  }
+
+  .dark .text-gray-700,
+  .dark .text-gray-600 {
+    color: #cbd5e1 !important;
+    /* Light Gray text */
+  }
+
+  .dark .text-gray-500,
+  .dark .text-gray-400 {
+    color: #94a3b8 !important;
+    /* Muted text */
+  }
+
+  .dark .border-gray-100,
+  .dark .border-gray-200,
+  .dark .border-gray-300 {
+    border-color: var(--color-unitech-border) !important;
+  }
+
+  .dark .shadow-sm,
+  .dark .shadow-md,
+  .dark .shadow-lg {
+    box-shadow: none !important;
+    /* Flat design in dark mode usually looks better or needs specific dark shadows */
+    border: 1px solid var(--color-unitech-border) !important;
+    /* Add border to define edges since shadow is gone */
+  }
+
+
+  #whatsapp-widget-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+
+  .whatsapp-fab-embedded {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .whatsapp-fab-embedded:hover {
+    transform: scale(1.05);
+  }
+
+  .whatsapp-chat-window {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 380px;
+    height: 600px;
+    max-height: 85vh;
+    background-color: #0b141a;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chat-header {
+    background-color: #202c33;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #e9edef;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+    cursor: move;
+  }
+
+  .chat-body {
+    flex: 1;
+    overflow-y: auto;
+    background-color: #0b141a;
+    background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+    background-size: 400px;
+    background-repeat: repeat;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px;
+    /* Added padding for breathing room */
+  }
+
+  .chat-footer {
+    background-color: #202c33;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+  }
+
+  .chat-input {
+    flex: 1;
+    background-color: #2a3942;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: #d1d7db;
+    font-size: 15px;
+  }
+
+  .chat-input:focus {
+    outline: none;
+  }
+
+  .chat-send-btn {
+    color: #8696a0;
+    cursor: pointer;
+  }
+
+  .chat-send-btn:hover {
+    color: #00a884;
+  }
+
+  .message {
+    max-width: 85%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    position: relative;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+  }
+
+  .message.sent {
+    background-color: #005c4b;
+    color: #e9edef;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+    margin-right: 4px;
+    /* Space from right edge */
+  }
+
+  .message.received {
+    background-color: #202c33;
+    color: #e9edef;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+    margin-left: 4px;
+    /* Space from left edge */
+  }
+
+  /* Scrollbar */
+  .chat-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-body::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .chat-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dark input,
+  .dark select,
+  .dark textarea {
+    background-color: #0f172a !important;
+    color: white !important;
+    border-color: var(--color-unitech-border) !important;
+  }
+
+  /* Specific fix for inputs in dark mode */
+  .dark .input-field {
+    color: white !important;
+  }
+
+  /* Custom scrollbar for Webkit browsers */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f3f4f6;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+    border: 1px solid #f3f4f6;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ea580c;
+    /* Orange-600 */
+  }
+
+  /* High Visibility Scrollbar for Reports/Tables */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    /* Slate-400 */
+    border-radius: 10px;
+    border: 3px solid #f1f5f9;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+    /* Slate-700 */
+  }
+}
+
+/* Replaces glass-panel */
+.tech-panel {
+  @apply bg-white border border-unitech-border shadow-sm rounded-lg;
+}
+
+/* Deprecated compatibility alias */
+.glass-panel {
+  @apply tech-panel;
+}
+
+.btn-primary {
+  @apply px-4 py-2 bg-unitech-primary text-white font-bold uppercase tracking-wider rounded-md hover:bg-blue-600 transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed shadow-sm;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 bg-white border border-gray-300 text-gray-700 uppercase tracking-wider rounded-md hover:bg-gray-50 transition-all active:translate-y-[1px] shadow-sm;
+}
+
+.input-field {
+  @apply w-full bg-white border border-gray-300 rounded-md px-4 py-3 text-gray-900 font-sans text-sm focus:outline-none focus:border-unitech-primary focus:ring-1 focus:ring-unitech-primary transition-colors placeholder-gray-500;
+  color: #111827 !important;
+  /* Force gray-900 */
+}
+
+@media print {
+
+  /* Hide UI Shell and Navigation - High Specificity */
+  aside,
+  header,
+  nav,
+  .nav-btn,
+  #backup-btn,
+  #logout-btn,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset layout for full page print */
+  body,
+  #app,
+  #content-area {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Specific navigation panel wrapper reset */
+  .tech-panel {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Specific fix for the flex wrapper in MainLayout */
+  .h-screen {
+    height: auto !important;
+  }
+
+  /* Improve borders for print */
+  .border,
+  .border-t,
+  .border-b,
+  .border-l,
+  .border-r {
+    border-color: #000 !important;
+  }
+}
+
+/* AI Chat Custom Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --- WHATSAPP WIDGET OVERRIDES (GLOBAL) --- */
+.whatsapp-chat-window .chat-body {
+  padding: 30px 20px !important;
+  /* Aumentei muito para garantir o respiro */
+  background-color: #0b141a !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.whatsapp-chat-window .message {
+  padding: 10px 16px !important;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  max-width: 82% !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) !important;
+  position: relative !important;
+  color: #e9edef !important;
+}
+
+.whatsapp-chat-window .message.sent {
+  align-self: flex-end !important;
+  background-color: #005c4b !important;
+  margin-right: 15px !important;
+  /* Espaço generoso da direita */
+  border-bottom-right-radius: 2px !important;
+}
+
+.whatsapp-chat-window .message.received {
+  align-self: flex-start !important;
+  background-color: #202c33 !important;
+  margin-left: 15px !important;
+  /* Espaço generoso da esquerda */
+  border-bottom-left-radius: 2px !important;
+}
+
+.whatsapp-chat-window .message-content {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+  display: block !important;
+}
+
+.whatsapp-chat-window .message-meta {
+  font-size: 11px !important;
+  margin-top: 4px !important;
+  opacity: 0.7 !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 4px !important;
+}
+
+.whatsapp-chat-window * {
+  box-sizing: border-box !important;
+}

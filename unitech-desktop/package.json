@@ -1,0 +1,36 @@
+{
+  "name": "unitech-connector",
+  "productName": "UniTech Connector",
+  "version": "1.0.0",
+  "author": "UniTech Solutions",
+  "description": "Motor de Integração WhatsApp UniTech",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder -w"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.6.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "pino": "^8.15.0",
+    "qrcode": "^1.5.3"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^26.7.0",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.unitech.connector",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "runAfterFinish": true
+    }
+  }
+}
